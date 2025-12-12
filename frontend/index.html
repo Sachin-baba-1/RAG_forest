@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload UI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>Upload Your Files</h2>
+
+    <form action="http://127.0.0.1:8000/input_HERE" method="POST" enctype="multipart/form-data">
+        
+        <label for="file-upload" class="upload-box">
+            <span class="upload-text">Drag & Drop files here or <b>Browse</b></span>
+            <input id="file-upload" type="file" name="Filee" multiple
+                   accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg,.csv">
+        </label>
+
+        <button type="submit" class="upload-btn">Upload</button>
+    </form>
+</div>
+
+</body>
+</html>
