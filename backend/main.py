@@ -1,8 +1,7 @@
-from fastapi import FastAPI,File,UploadFile,BackgroundTasks
+from fastapi import FastAPI,File,UploadFile,BackgroundTasks,Request,Form
 from pydantic import BaseModel
 import pathlib, shutil, uuid
 from Embedding import process_doc
-
 
 app=FastAPI()
 
@@ -28,7 +27,7 @@ async def _run_and_record(file_path: str, job_id: str):
     except Exception as e:
         mark_job_status(job_id, "failed:" + str(e))
 
-@app.post("/input_HERE")
+@app.post("/input_HERE_FILE")
 async def ocean(background: BackgroundTasks, Filee: UploadFile = File(...)):
     stored_name = Filee.filename
     stored_path = DOC_DIR / stored_name
@@ -43,6 +42,14 @@ async def ocean(background: BackgroundTasks, Filee: UploadFile = File(...)):
     background.add_task(_run_and_record, str(stored_path), job_id)
 
     return {"status": "uploaded", "filename": stored_name, "job_id": job_id}
+
+
+@app.post("/input_HERE_TEXT")
+async def ship(request: Request, query: str | None = Form(None)):
+    # priority: Form value, then query params, then fallback None
+    if query is None:
+        query = request.query_params.get("query")
+    return {"query": query}
 
 # @app.get("/status/{job_id}")
 # def status(job_id: str):

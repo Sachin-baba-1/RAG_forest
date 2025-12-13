@@ -51,12 +51,13 @@ def Retrival_query(qurey,chunk):
 	embeddings = MistralAIEmbeddings(
         model="mistral-embed",
     )
-	vectorstore = Chroma.from_documents(
-	        documents=chunk,
-	        embedding=embeddings,
+	vectorstore = Chroma(
+	        embedding_function=embeddings,
 	        persist_directory="./chroma_db",
 	        collection_name="all_documents"
 	    )	
+	vectorstore.add_documents(chunk)
+	vectorstore.persist()
 	llm = ChatMistralAI(model="mistral-large-latest")
 
 	multi_retriever = MultiQueryRetriever.from_llm(
@@ -111,8 +112,11 @@ for doc in all_results:
 
 
 print("Results from ALL documents:")
-for i, doc in enumerate(unique_results.values(), 1):
-    print(f"\n{i}. {getattr(doc, 'page_content', str(doc))[:300]}...")
+for i, (key, doc) in enumerate(unique_results.items(), 1):
+    source = key[0]
+    snippet = getattr(doc, "page_content", str(doc))[:300]
+    print(f"\n{i}. From: {source}\n   {snippet}...")
+
 
 
 

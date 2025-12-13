@@ -11,7 +11,7 @@
 <div class="upload-container">
     <h2>Upload Your Files</h2>
 
-    <form action="http://127.0.0.1:8000/input_HERE" method="POST" enctype="multipart/form-data">
+    <form action="http://127.0.0.1:8000/input_HERE_FILE" method="POST" enctype="multipart/form-data">
         
         <label for="file-upload" class="upload-box">
             <span class="upload-text">Drag & Drop files here or <b>Browse</b></span>
@@ -21,6 +21,12 @@
 
         <button type="submit" class="upload-btn">Upload</button>
     </form>
+    <form action="http://127.0.0.1:8000/input_HERE_TEXT" method="POST">
+        <label for="query">Query:</label>
+            <input type="text" id="query" name="query" placeholder="what are u here for">
+        <button type="submit">Submit</button>
+    </form>
+
 </div>
 
 </body>
