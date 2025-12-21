@@ -1,3 +1,10 @@
+# Vector DB / Chroma
+backend/chroma_db/
+
+# Temporary processing files
+processor_tmp/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
