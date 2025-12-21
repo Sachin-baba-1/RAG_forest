@@ -56,8 +56,12 @@ async def upload_and_query(
     # await process_doc(stored_path)
 
     registry = load_registry()
-
-    if file:
+    if (not file or not file.filename) and len(registry) == 0:
+        return {
+            "status": "error",
+            "message": "No documents indexed. Please upload at least one document."
+        }
+    if file and file.filename:
         stored_path = DOC_DIR / file.filename
 
         with stored_path.open("wb") as out:
@@ -89,6 +93,28 @@ async def upload_and_query(
         "documents_indexed": len(registry),
         **response
     }
+
+@app.get("/documents/status")
+def documents_status():
+    registry = load_registry()
+
+    filenames = [
+        entry["filename"]
+        for entry in registry.values()
+        if "filename" in entry
+    ]
+
+    return {
+    "has_documents": len(registry) > 0,
+    "documents": [
+        {
+            "filename": v["filename"],
+            "indexed": v.get("indexed", False),
+        }
+        for v in registry.values()
+        ]
+    }
+
 
 @app.post("/render/html")
 async def render_html_view(payload: dict):

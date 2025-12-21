@@ -4,6 +4,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from Embedding import query_vectorstore
 from pydantic import BaseModel
 from typing import List
+from pathlib import Path
 
 class Slide(BaseModel):
     heading: str
@@ -47,9 +48,17 @@ No markdown. No explanation.
         "question": query_text,
         "format_instructions": parser.get_format_instructions()
     })
+    seen = set()
+    sources = []
+
+    for doc in docs:
+        name = Path(doc.metadata.get("source", "")).name
+        if name not in seen:
+            seen.add(name)
+            sources.append({"filename": name})
 
     return {
-        "status": "ok",
-        "ppt": ppt,  # ✅ NOW A DICT
-        "sources": [doc.metadata for doc in docs]
+    "status": "ok",
+    "ppt": ppt,
+    "sources": sources
     }
