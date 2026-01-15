@@ -18,8 +18,8 @@ app=FastAPI()
 # Serve frontend
 app.mount("/ui", StaticFiles(directory="frontend", html=True), name="frontend")
 
-DOC_DIR=pathlib.Path("C:/Users/Sachi/Desktop/poject/forest/processor_tmp")
-DOC_DIR.mkdir(exist_ok=True)
+DOC_DIR=pathlib.Path(__file__).parent / "processor_tmp"
+DOC_DIR.mkdir(parents=True,exist_ok=True)
 
 def compute_hash(file: UploadFile):
     h = hashlib.sha256()
