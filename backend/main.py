@@ -1,13 +1,13 @@
 from fastapi import FastAPI,File,UploadFile,BackgroundTasks,Request,Form
 from pydantic import BaseModel
 import pathlib, shutil, uuid
-from Embedding import process_doc
-from generator import generator_response
+from .Embedding import process_doc
+from .generator import generator_response
 from fastapi.responses import HTMLResponse
 
 
 from fastapi.staticfiles import StaticFiles
-from doc_registry import load_registry, save_registry
+from .doc_registry import load_registry, save_registry
 import hashlib
 
 from fastapi.staticfiles import StaticFiles
